@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard - Table Section</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Weather.css">
+   
+</head>
+
+<body class="bg-gray-900 text-gray-300">
+    <div class="min-h-screen  flex flex-col md:flex-row">
+       <!-- Sidebar -->
+       <nav class="sidebar w-64 h-full p-6 text-white fixed z-10">
+        <div class="flex flex-col h-full">
+            <button class="text-white focus:outline-none md:hidden flex items-center justify-end" onclick="toggleSidebar()">
+                ✖
+            </button>
+            <div class="flex justify-between items-center mb-10">
+                <img class="h-12 w-12" src="./Asset/AppLogo.png" alt="App Logo">
+            </div>
+            <ul class="space-y-4">
+                <li>
+                    <a href="./Weather.html" class="block py-3 px-6 bg-gray-700 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform hover-gradient hover:scale-105">
+                        Dashboard
+                    </a>
+                </li>
+                <li>
+                    <a href="./Table.html" class="block py-3 px-6 bg-gray-700 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform hover-gradient hover:scale-105">
+                        Tables
+                    </a>
+                </li>
+            </ul>
+        </div>
+     </nav>
+
+     <p class="error-message"></p>
+
+     <!-- Content -->
+     <div class="content-wrapper flex-grow md:p-6 p-2 transition-all duration-300 md:ml-64">
+<!-- Header Section -->
+       <div id="HeaderArea" class="flex flex-grow md:flex-row flex-col space-y-2 mb-4">
+    <button id="HamMenu" class="toggle-btn md:hidden bg-gray-700 text-white p-2 px-4 mx-1 rounded focus:outline-none hover:bg-gray-500" onclick="toggleSidebar()">
+        ☰
+    </button>
+        <!-- Search Input -->
+        <input type="text" placeholder="Search by City" class="flex-grow rounded-lg border-2 border-black focus:outline-none focus:border-cyan-500 bg-gray-800 text-white shadow-md placeholder-gray-500 transition-all duration-300" id="search-input">
+        <button id="searchBtn" class="block button-custom flex items-center justify-center hover:bg-yellow-500 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform bg-gray-800 gradient hover:scale-105">
+            🔍<span id="searchText" class="hidden md:inline-block"> Search</span>
+        </button>
+    <button 
+        class="relative w-12 h-12 bg-opacity-70 bg-gray-800 rounded-full flex justify-center items-center mx-2 transition-transform duration-300 transform hover:scale-110 cursor-pointer hidden md:block" aria-label="Open Chatbot"> 
+        <img src="./Asset/chatbot.png" alt="Chatbot" class="w-full h-full object-cover rounded-full shadow-md transition-transform duration-300 hover:scale-105"> 
+    </button>
+     </div>
+
+                <!-- Table Section and Chatbot Section -->
+  <!-- Buttons Section -->
+            <div class="grid grid-cols-2  gap-4 mb-4 bg-gray-800 p-3 opacity-80 rounded-lg md:hidden">
+    <button onclick="sortAsc()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Sort Temp Ascending
+    </button>
+    <button onclick="sortDesc()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Sort Temp Descending
+    </button>
+    <button id="filterRainBtn" onclick="toggleRainFilter()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Filter Rainy Days
+    </button>
+    <button onclick="findMaxTemp()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Show Highest Temp
+    </button>
+    
+    <button  onclick="getWeatherByLocation()" id="useLocationBtn" class="block py-2 px-4 bg-gradient-to-r from-yellow-500 to-yellow-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Use Location
+    </button>
+    <button onclick="toggleUnit()" id="toggleUnitBtn" class="block py-2 px-4 bg-gradient-to-r from-gray-500 to-gray-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Toggle Unit
+    </button>
+    
+
+ 
+</div>
+
+<!-- Buttons Section -->
+<div class="flex space-x-4 mb-4 bg-gray-800 p-3 opacity-80 rounded-lg hidden md:flex">
+    <button onclick="sortAsc()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Sort Temp Ascending
+    </button>
+    <button onclick="sortDesc()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Sort Temp Descending
+    </button>
+    <button id="filterRainBtn" onclick="toggleRainFilter()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Filter Rainy Days
+    </button>
+    <button onclick="findMaxTemp()" class="block py-2 px-4 bg-gradient-to-r from-blue-500 to-blue-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Show Highest Temp
+    </button>
+    <button onclick="getWeatherByLocation()" id="useLocationBtn" class="block py-2 px-4 bg-gradient-to-r from-yellow-500 to-yellow-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+        Use Location
+    </button>
+    <button onclick="toggleUnit()" id="toggleUnitBtn"class="block py-2 px-4 bg-gradient-to-r from-gray-500 to-gray-700 text-center text-white font-semibold rounded-lg shadow-md transition duration-300 transform hover:scale-105 hover:bg-gradient-to-r hover:from-blue-400 hover:to-blue-600 focus:outline-none">
+       Toggle Unit
+    </button>
+    
+</div>
+
+
+<div id="tablearea" class="flex flex-col md:flex-row w-full mr-2">
+    <div class="bg-gray-800 shadow-md rounded-lg md:p-6 p-1 opacity-80 mb-6 flex-grow  overflow-auto">
+        <div id="loading-spinner" class="flex justify-center items-center" style="display: none; height: 200px;">
+            <div class="spinner"></div>
+        </div>
+        <table class="min-w-full bg-gray-800" id="mainTable">
+            <thead>
+                <tr>
+                    <th class="w-1/6 py-1 px-2 text-left md:text-lg font-semibold text-gray-300 border-b border-gray-700">Day</th>
+                    <th class="w-1/4 py-1 px-2 text-left md:text-lg font-semibold text-gray-300 border-b border-gray-700">Date</th>
+                    <th class="w-1/4 py-1 px-2 text-left md:text-lg font-semibold text-gray-300 border-b border-gray-700">Max Temp</th>
+                    <th class="w-1/4 py-1 px-2 text-left md:text-lg font-semibold text-gray-300 border-b border-gray-700">Min Temp</th>
+                    <th class="w-1/6 py-1 px-2 text-left md:text-lg font-semibold text-gray-300 border-b border-gray-700">Condition</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+                <tr>
+                    <!-- Rows will be populated here -->
+                </tr>
+            </tbody>
+        </table>
+    
+        <!-- Pagination Controls -->
+        <div class="flex justify-between items-center mt-4">
+            <button id="prevBtn" class="block py-2 px-4 bg-gray-700 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform hover:scale-105 focus:outline-none" onclick="changePage(currentPage - 1)">
+                Previous
+            </button>
+            <span id="pageInfo" class="text-gray-300 font-semibold">Page 1 of 1</span>
+            <button id="nextBtn" class="block py-2 px-4 bg-gray-700 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform hover:scale-105 focus:outline-none" onclick="changePage(currentPage + 1)">
+                Next
+            </button>
+        </div>
+    </div>
+    
+
+    <div class="chatbot-section bg-gray-800 shadow-md p-6 rounded-md hidden md:flex w-full lg:w-1/3 md:ml-4 mb-6 flex flex-col ">
+        <h3 class="text-xl font-bold mb-4 text-white">Chatbot</h3>
+        <div class="flex-grow bg-gray-700 p-4 rounded-md mb-4 overflow-auto h-64" id="chatbotResponse">
+            <p class="bg-green-500 text-white rounded-2xl px-4 py-2 inline-block max-w-xs break-words shadow-md float-left clear-both">
+                Hello! How can I help you today?
+            </p>
+        </div>
+        <div class="flex items-center">
+            <input type="text" id="chatbotInput" placeholder="Ask a question..." class="px-4 py-2 border text-black rounded-md w-full" />
+            <button id="sendBtn" class="ml-2 py-3 px-6 bg-gray-700 rounded-lg text-white font-semibold shadow-md transition duration-300 transform hover:scale-105">
+                Send
+            </button>
+        </div>
+    </div>
+</div>
+
+            </div>
+            
+        </div>
+        
+    </div>
+    
+    <!-- Chatbot Popup Panel -->
+    <div id="chatbotPopup" class="fixed inset-0 bg-black bg-opacity-50 w-full hidden flex justify-center items-end md:items-center z-50">
+        <div class="bg-gray-800 shadow-md p-3 rounded-lg  h-3/4 md:h-auto md:rounded-md md:w-1/2 lg:w-1/3 flex flex-col">
+            <button onclick="closeChatbot()" class="self-end text-white mb-2 text-lg font-semibold focus:outline-none hover:text-red-500 transition">
+                ✖
+            </button>
+            <h3 class="text-xl font-bold mb-2 text-white">Chatbot</h3>
+            <div class="flex-grow bg-gray-700 p-4 rounded-md mb-4 overflow-auto h-64" id="chatbotResponseMobile">
+                <p class="bg-green-500 text-white rounded-2xl px-4 py-2 inline-block max-w-xs break-words shadow-md float-left clear-both">
+                    Hello! How can I help you today?
+                </p>
+            </div>
+            <div class="flex items-center">
+                <input type="text" id="chatbotInputMobile" placeholder="Ask a question..." class=" px-4 py-2 border text-black rounded-md w-full" />
+                <button onclick="sendMessage()" id="sendBtn" class="ml-2 py-3 px-6 bg-gray-700 rounded-lg text-white font-semibold shadow-md transition duration-300 transform hover:scale-105">
+                    Send
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="chatbot-btn fixed bottom-4 right-4 md:hidden">
+        <button onclick="openChatbot()" class="bg-blue-500 hover-gradient mb-0 text-white p-0 rounded-full shadow-lg hover:bg-green-400 transition duration-300">
+            <img src="./Asset/chatbot.png" alt="Chatbot" class="w-14 h-12" />
+        </button>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="Table.js"></script>
+  
+</body>
+
+</html>

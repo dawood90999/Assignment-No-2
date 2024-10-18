@@ -1,0 +1,200 @@
+/* Global Styles */
+body {
+    font-family: 'Roboto', sans-serif;
+  
+}
+
+/* Sidebar */
+.sidebar {
+    background-color: rgba(0, 0, 0, 0.8);
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar.active {
+    transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        transform: translateX(-100%);
+    }
+}
+
+
+nav li:active {
+background-color: #f59e0b;
+}
+.spinner {
+    border: 8px solid rgb(0, 0, 0);
+    border-top: 8px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Content Wrapper */
+.content-wrapper {
+    margin-left: 250px;
+    backdrop-filter: blur(5px);
+    transition: margin-left 0.3s;
+    background-image: url("./Asset/sunny.jpg");
+    background-size: cover;
+    height: 100%;
+    width: 100vw;
+    position: relative;
+}
+
+
+@media (max-width: 768px) {
+    .content-wrapper {
+        margin-left: 0;
+    }
+}
+
+/* Card Styles */
+.card-bg {
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card-bg:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Chart Styles */
+.chart {
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.chart:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Buttons */
+button {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+button:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Active Button State */
+#filterRainBtn.active {
+    background: linear-gradient(to right, #fbbf24, #f59e0b);
+    color: #000;
+    transform: scale(1.05);
+}
+
+/* Hover Effects */
+.hover-gradient:hover {
+    background: linear-gradient(145deg, #06b6d4, #4f46e5);
+    color: white !important;
+}
+
+/* Table Styles */
+.tablearea {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+tr:hover {
+    background-color: rgba(255, 255, 255, 0.3);
+    color: white;
+}
+
+/* Search and Buttons */
+#search-input {
+    height: 48px;
+    padding: 0 16px;
+}
+
+.button-custom {
+    height: 48px;
+    padding: 0 16px;
+}
+
+#searchBtn {
+    height: 52px;
+    font-size: 13px;
+}
+
+/* Hamburger Menu */
+#HamMenu {
+    width: 38px;
+    height: 38px;
+}
+
+@media (max-width: 768px) {
+    #HamMenu {
+        width: 60px;
+        height: 48px;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+
+#stext
+{
+display: none;
+}
+    #searchCenter {
+        max-width: 90%;
+    }
+ 
+}
+
+/* Weather Information */
+.weatherInfoDiv {
+    background-color: rgb(136, 70, 211);
+}
+
+/* Condition Cell */
+.condition-cell {
+    max-height: 3rem;
+    overflow: hidden;
+    white-space: nowrap;
+max-width: 100%;
+}
+
+/* Chatbot Popup */
+#chatbotPopup {
+    width: 100%;
+    justify-self: end;
+    justify-content: end;
+    border-radius: 9px;
+    font-size: 17px;
+}
+#tablearea
+{
+    overflow-x: auto;
+}
+#searchArea
+{
+    display: none;
+}

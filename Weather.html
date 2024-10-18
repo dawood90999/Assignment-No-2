@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="Weather.css">
+
+</head>
+
+<body class="bg-gray-900 text-gray-300">
+    <div class="min-h-screen flex flex-col md:flex-row">
+        <!-- Sidebar -->
+        <nav class="sidebar w-64 h-full p-6 text-white fixed z-10">
+            <div class="flex flex-col h-full">
+                <button class="text-white focus:outline-none md:hidden flex items-center justify-end" onclick="toggleSidebar()">
+                    ✖
+                </button>
+                <div class="flex justify-between items-center mb-10">
+                    <img class="h-12 w-12" src="./Asset/AppLogo.png" alt="App Logo">
+                </div>
+                <ul class="space-y-4">
+                    <li>
+                        <a href="./Weather.html" class="block py-3 px-6 bg-gray-700 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform hover-gradient hover:scale-105">
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./Table.html" class="block py-3 px-6 bg-gray-700 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform hover-gradient hover:scale-105">
+                            Tables
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <p class="error-message"></p>
+
+        <!-- Content -->
+        <div class="content-wrapper flex-grow md:p-6 p-2 transition-all duration-300 md:ml-64">
+      <!-- Header Section -->
+      <div id="HeaderArea" class="flex flex-grow md:flex-row flex-col space-y-2 mb-4">
+        <button id="HamMenu" class="toggle-btn md:hidden bg-gray-700 text-white p-2 px-4 mx-1 rounded focus:outline-none hover:bg-gray-500" onclick="toggleSidebar()">
+            ☰
+        </button>
+            <!-- Search Input -->
+            <input type="text" placeholder="Search by City" class="flex-grow rounded-lg border-2 border-black focus:outline-none focus:border-cyan-500 bg-gray-800 text-white shadow-md placeholder-gray-500 transition-all duration-300" id="search-input">
+            <button id="searchBtn" class="block button-custom flex items-center justify-center hover:bg-yellow-500 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform bg-gray-800 gradient hover:scale-105">
+                🔍<span id="searchText" class="hidden md:inline-block"> Search</span>
+            </button>
+        <button 
+            class="relative w-12 h-12 bg-opacity-70 bg-gray-800 rounded-full flex justify-center items-center mx-2 transition-transform duration-300 transform hover:scale-110 cursor-pointer hidden md:block" aria-label="Open Chatbot"> 
+            <img src="./Asset/chatbot.png" alt="Chatbot" class="w-full h-full object-cover rounded-full shadow-md transition-transform duration-300 hover:scale-105"> 
+        </button>
+         </div>
+
+            <div id="weatherInfoDiv" class="weatherInfoDiv bg-gray-800 shadow-md rounded-lg p-6 mb-6">
+                <div class="flex flex-row justify-between items-center mb-2"> <!-- Added justify-between for spacing -->
+                    <h2 class="text-2xl font-semibold text-white">Weather Information</h2>
+                    <div class="flex items-center space-x-2"> <!-- Container for buttons -->
+                        <button onclick="getWeatherByLocation()" id="useLocationBtn" class="block w-37 button-custom flex items-center justify-center hover:bg-yellow-500 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform bg-gray-800 gradient hover:scale-105">
+                            <img id="locImg" src="./Asset/place.png" alt="Location" class="w-5 h-5 mr-2"> <!-- Move the image outside of the span -->
+                            <span class="location-label">Location</span> <!-- Keep text in span -->
+                        </button>
+                        
+                        <button id="toggleUnitBtn" class="w-20 block button-custom flex items-center justify-center hover:bg-yellow-500 rounded-lg text-center text-white font-semibold shadow-md transition duration-300 transform bg-gray-800 gradient hover:scale-105">
+                            °C
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="error-message" class="text-red-500 mb-4 hidden"></div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Larger City Card (2x2) -->
+                    <div class="card-bg p-6 rounded-lg shadow-md col-span-1 md:col-span-2 row-span-3 flex items-center text-white relative">
+                        <!-- City Name Div (Left) -->
+                        <div class="w-1/2 flex flex-col justify-start">
+                            <div id="loading-spinner" class="spinner" style="display: none;"></div>
+
+                            <h3 class="WeatherDivText font-bold text-4xl md:text-5xl text-center" id="city-name">[City Name]</h3>
+                        </div>
+                        
+                        <!-- Weather Icon and Temperature Div (Right) -->
+                        <div class="w-1/2 flex flex-col items-center">
+                            <div class="flex justify-center">
+                                <img id="weather-icon" class="w-24 h-24 md:w-32 md:h-32" src="./Asset/weather.jpg" alt="Weather Icon">
+                            </div>
+                            <p class="WeatherDivText mt-4 text-gray-300 text-4xl md:text-5xl text-white" id="city-temp">[Temperature]°C</p>
+                        </div>
+                    </div>
+            
+                    <!-- Updated Other Weather Details -->
+                    <div class="card-bg p-6 rounded-lg shadow-md text-white flex flex-col md:flex-row justify-between items-center w-full aspect-square">
+                        <h3 class="WeatherDivText font-semibold text-lg md:text-xl md:text-left">Humidity</h3>
+                        <p class="WeatherDivText text-4xl md:text-5xl text-cyan-400 md:text-right" id="humidity-value">[Humidity]%</p>
+                    </div>
+                    <div class="card-bg p-6 rounded-lg shadow-md text-white flex flex-col md:flex-row justify-between items-center w-full aspect-square">
+                        <h3 class="WeatherDivText font-semibold text-lg md:text-xl md:text-left">Wind Speed</h3>
+                        <p class="WeatherDivText text-3xl md:text-4xl text-cyan-400 md:text-right" id="wind-speed-value">[Wind Speed] km/h</p>
+                    </div>
+                    <div class="card-bg p-6 rounded-lg shadow-md text-white flex flex-col md:flex-row justify-between items-center w-full aspect-square">
+                        <h3 class="WeatherDivText font-semibold text-lg md:text-xl md:text-left">Pressure</h3>
+                        <p class="WeatherDivText text-3xl md:text-4xl text-cyan-400 md:text-right" id="pressure-value">[Pressure] hPa</p>
+                    </div>
+                </div>
+            </div>
+            
+<!-- Charts Section -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- Vertical Bar Chart -->
+    <div class="ChartDiv1 chart bg-gray-800 shadow-md p-4 rounded-lg flex justify-center items-center text-white aspect-square relative">
+        <canvas id="verticalBarChart" class="flex-grow"></canvas>
+        <div class="absolute left-0 bottom-0 mb-4 flex justify-between w-full px-4">
+       
+        </div>
+    </div>
+
+    <!-- Doughnut Chart -->
+    <div class="ChartDiv2 chart bg-gray-800 shadow-md p-4 rounded-lg flex justify-center items-center text-white aspect-square relative">
+        <canvas id="doughnutChart" class="flex-grow"></canvas>
+        <div class="absolute left-0 bottom-0 mb-4 flex justify-between w-full px-4">
+         
+        </div>
+    </div>
+
+    <!-- Line Chart -->
+    <div class="ChartDiv3 chart bg-gray-800 shadow-md p-4 rounded-lg flex justify-center items-center text-white aspect-square relative">
+        <canvas id="lineChart" class="flex-grow"></canvas>
+        <div class="absolute left-0 bottom-0 mb-4 flex justify-between w-full px-4">
+          
+           
+        </div>
+    </div>
+</div>
+
+
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="Weather.js"></script>
+
+</body>
+
+</html>
